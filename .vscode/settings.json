@@ -1,0 +1,13 @@
+{
+  "editor.defaultFormatter": null, // without this the formatter from my default settings will override black
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": ".venv/bin/black",
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Path": ".venv/bin/flake8",
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.unusedImports": false
+    }
+  }
+}
