@@ -6,23 +6,30 @@ PAGE_SIZE = 10000
 
 
 class DataFetcher:
-    def fetch_electricity(self, last_recorded_date):
+    def fetch(self, consumption_type, last_recorded_date):
+        url = None
+        if consumption_type == "elec":
+            url = self.__electricity_url(last_recorded_date)
+        elif consumption_type == "gas":
+            url = self.__gas_url(last_recorded_date)
+
+        return requests.request("GET", url, auth=self.__basic())
+
+    def __electricity_url(self, last_recorded_date):
         mpan = os.environ["OCTOPUS_MPAN"]
         serial = os.environ["OCTOPUS_SERIAL_ELEC"]
-        url = (
+        return (
             f"{BASE_URL}/electricity-meter-points/{mpan}/meters/{serial}"
             f"/consumption?period_from={last_recorded_date}&page_size={PAGE_SIZE}"
         )
-        return requests.request("GET", url, auth=self.__basic())
 
-    def fetch_gas(self, last_recorded_date):
+    def __gas_url(self, last_recorded_date):
         mpan = os.environ["OCTOPUS_MPRN"]
         serial = os.environ["OCTOPUS_SERIAL_GAS"]
-        url = (
+        return (
             f"{BASE_URL}/gas-meter-points/{mpan}/meters/{serial}"
             f"/consumption?period_from={last_recorded_date}&page_size={PAGE_SIZE}"
         )
-        return requests.request("GET", url, auth=self.__basic())
 
     def __basic(self):
         # Octopus just provide an API token and expect that to be provided as
