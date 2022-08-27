@@ -26,7 +26,7 @@ class ConsumptionReading(Base):
 
 class Connection:
     def __init__(self):
-        self.engine = create_engine("sqlite:///database.db")
+        self.engine = create_engine("sqlite:///db/database.db")
         Base.metadata.create_all(self.engine)
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
