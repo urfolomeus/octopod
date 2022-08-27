@@ -41,9 +41,13 @@ class Connection:
         df["interval_end"] = pd.to_datetime(df["interval_end"], format=DATE_FORMAT)
         df.to_sql("consumption_reading", self.engine, if_exists="append", index=False)
 
-    def read(self):
+    def read(self, consumption_type):
         return pd.read_sql(
-            "consumption_reading",
+            f"""
+            SELECT *
+            FROM consumption_reading
+            WHERE consumption_type='{consumption_type}'
+            """,
             self.engine,
             parse_dates={"interval_start": DATE_FORMAT, "interval_end": DATE_FORMAT},
             index_col="interval_start",

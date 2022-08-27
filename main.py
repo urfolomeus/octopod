@@ -17,7 +17,7 @@ def record_electricity():
 
 
 def read_electricity():
-    readings = db.read()
+    readings = db.read("elec")
     print(readings.sort_values("interval_start", ascending=False))
 
 
