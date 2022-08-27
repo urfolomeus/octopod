@@ -19,9 +19,9 @@ class ConsumptionType(enum.Enum):
 class ConsumptionReading(Base):
     __tablename__ = "consumption_reading"
     interval_start = Column(DateTime, primary_key=True)
+    consumption_type = Column(Enum(ConsumptionType), primary_key=True)
     interval_end = Column(DateTime)
     consumption = Column(Float(precision=3))
-    consumption_type = Column(Enum(ConsumptionType))
 
 
 class Connection:

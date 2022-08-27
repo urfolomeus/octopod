@@ -2,7 +2,7 @@ import os
 import requests
 
 BASE_URL = "https://api.octopus.energy/v1"
-PAGE_SIZE = 1000
+PAGE_SIZE = 10000
 
 
 class DataFetcher:
@@ -13,7 +13,15 @@ class DataFetcher:
             f"{BASE_URL}/electricity-meter-points/{mpan}/meters/{serial}"
             f"/consumption?period_from={last_recorded_date}&page_size={PAGE_SIZE}"
         )
+        return requests.request("GET", url, auth=self.__basic())
 
+    def fetch_gas(self, last_recorded_date):
+        mpan = os.environ["OCTOPUS_MPRN"]
+        serial = os.environ["OCTOPUS_SERIAL_GAS"]
+        url = (
+            f"{BASE_URL}/gas-meter-points/{mpan}/meters/{serial}"
+            f"/consumption?period_from={last_recorded_date}&page_size={PAGE_SIZE}"
+        )
         return requests.request("GET", url, auth=self.__basic())
 
     def __basic(self):
